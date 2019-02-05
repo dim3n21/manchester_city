@@ -26,6 +26,20 @@ class Enroll extends Component {
         }
     }
 
+    updateForm(element){
+
+        console.log(element)
+        const newFormdata = {...this.state.formdata} 
+        const newElement = {...newFormdata[element.id]}
+
+        newElement.value = element.event.target.value;
+        newFormdata[element.id] = newElement;
+
+        this.setState({
+            formdata: newFormdata
+        })
+    }
+
     submitForm(){}
 
     render() {
@@ -40,7 +54,8 @@ class Enroll extends Component {
                             <FormFields 
                                 id={'email'}
                                 formdata={this.state.formdata.email}
-                                
+                                change={(element)=>{this.updateForm(element)}}
+
                             />
                         </div>
                     </form>
