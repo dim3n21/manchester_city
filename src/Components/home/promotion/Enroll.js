@@ -3,7 +3,7 @@ import Fade from 'react-reveal/Fade';
 import FormFields from '../../ui/formFields';
 import { validate } from '../../ui/misc';
 
-import { fireBasePromotions } from '../../../firebase';
+import { firebasePromotions } from '../../../firebase';
 
 class Enroll extends Component {
 
@@ -91,12 +91,12 @@ class Enroll extends Component {
 
             // Work with the firebase 
                 //  Check if the user is already in the promotion list
-            fireBasePromotions.orderByChild('email').equalTo(dataToSubmit.email).once("value")
+            firebasePromotions.orderByChild('email').equalTo(dataToSubmit.email).once("value")
                 .then((snapshot)=>{
                     if (snapshot.val() === null) {
 
                         // add the email to the forebase
-                        fireBasePromotions.push(dataToSubmit);
+                        firebasePromotions.push(dataToSubmit);
                         this.resetFormSuccess(true)
                     } else {
                         this.resetFormSuccess(false)

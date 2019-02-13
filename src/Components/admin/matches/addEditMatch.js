@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import AdminLayout from '../../../Hoc/AdminLayout';
 import FormFields from '../../ui/formFields';
 import { validate } from '../../ui/misc';
+import { firebaseMatches, firebaseTeams, firebaseDB } from '../../../firebase';
+import { firebaseLooper } from '../../ui/misc';
 
 class AddEditMatch extends Component {
 
@@ -159,6 +161,84 @@ class AddEditMatch extends Component {
                 validationMessage: '',
                 showlabel: true
             }
+        }
+    }
+
+    updateForm (element) {
+        const newFormdata = {...this.state.formdata} 
+        const newElement = {...newFormdata[element.id]}
+
+        newElement.value = element.event.target.value;
+
+        let validData = validate(newElement)
+
+        newElement.valid = validData[0];
+        newElement.validationMessage = validData[1];
+        
+        newFormdata[element.id] = newElement;
+
+        this.setState({
+            formError: false,
+            formdata: newFormdata
+        })
+    }
+
+    updateFields (match, teamOptions, teams, type, matchId) {
+
+        // create new formdata from state
+        const newFormdata = {
+            ...this.state.formdata
+        }
+
+        // if there is the key on the server that is in state -> update value in the state with value from server
+        for (let key in newFormdata) {
+            if (match) {
+                newFormdata[key].value = match[key];
+                newFormdata[key].valid = true;
+            }
+
+            if (key === 'local' || key === 'away') {
+                newFormdata[key].config.options = teamOptions;
+            }
+        }
+
+        this.setState({
+            matchId,
+            formType: type,
+            formdata: newFormdata,
+            teams
+        })
+    }
+
+    componentDidMount () {
+        const matchId = this.props.match.params.id;
+        
+        const getTeams = (match, type) => {
+            firebaseTeams.once('value').then(snapshot => {
+                const teams = firebaseLooper(snapshot);
+                const teamOptions = [];
+
+                snapshot.forEach( (childsnapshot) => {
+                    teamOptions.push({
+                        key: childsnapshot.val().shortName,
+                        value: childsnapshot.val().shortName
+                    })
+                });
+
+                this.updateFields(match, teamOptions, teams, type, matchId)
+            })
+        };
+
+        
+        if (!matchId) {
+            // ADD MATCH
+        } else {
+            // FETCH DATA 
+            firebaseDB.ref(`matches/${matchId}`).once('value')
+                .then ( (snapshot) => {
+                    const match = snapshot.val();
+                    getTeams(match, 'Edit Match');   
+                })
         }
     }
 

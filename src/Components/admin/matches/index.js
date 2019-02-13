@@ -52,7 +52,7 @@ class AdminMatches extends Component {
                                                     {match.date}
                                                 </TableCell>
                                                 <TableCell>
-                                                    <Link to={'/adminmatches/editmatch/${match.id}'}>
+                                                    <Link to={`/adminmatches/editmatch/${match.id}`}>
                                                         {match.away} <strong>-</strong> {match.local}
                                                     </Link>
                                                 </TableCell>
