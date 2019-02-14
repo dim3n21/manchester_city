@@ -17,6 +17,7 @@ const Routes = (props) => {
   return (
     <Layout>
         <Switch>
+          <PrivateRoute {...props} path="/adminmatches/editmatch" exact component={AddEditMatch}/> 
           <PrivateRoute {...props} path="/adminmatches/editmatch/:id" exact component={AddEditMatch}/> 
           <PrivateRoute {...props} path="/adminmatches" exact component={AdminMatches}/> 
           <PrivateRoute {...props} path="/dashboard" exact component={Dashboard}/> 
