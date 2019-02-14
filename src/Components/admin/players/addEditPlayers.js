@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AdminLayout from '../../../Hoc/AdminLayout';
 import FormFields from '../../ui/formFields';
 import { validate } from '../../ui/misc';
+import Fileuploader from '../../ui/fileuploader';
 
 import { firebasePlayers, firebaseDB, firebase } from '../../../firebase';
 
@@ -79,9 +80,17 @@ class AddEditPlayers extends Component {
                 valid: false,
                 validationMessage: '',
                 showlabel: true
+            },
+            image: {
+                element: 'image',
+                value:'',
+                validation: {
+                    required: true
+                },
+                valid: true
             }
         }
-    }
+    };
 
     componentDidMount() {
         const playerId = this.props.match.params.id;
@@ -94,7 +103,7 @@ class AddEditPlayers extends Component {
         } else {
             // edit player
         }
-    }
+    };
 
     updateForm (element) {
         const newFormdata = {...this.state.formdata} 
@@ -113,7 +122,7 @@ class AddEditPlayers extends Component {
             formError: false,
             formdata: newFormdata
         })
-    }
+    };
 
     submitForm(event){
         event.preventDefault();
@@ -134,7 +143,15 @@ class AddEditPlayers extends Component {
             })
         }
         
-    }
+    };
+
+    resetImage = () => {
+
+    };
+
+    storeFilename = () => {
+
+    };
 
     render() {
         return (
@@ -145,6 +162,15 @@ class AddEditPlayers extends Component {
                     </h2>
                     <div>
                         <form onSubmit={(event) => this.submitForm(event)}>
+
+                            <Fileuploader
+                                dir="player"
+                                tag={"Player image"}
+                                defaultImg={this.state.defaultImg}
+                                defaultImgName={this.state.formdata.image.value}
+                                resetImage={ () => this.resetImage()}
+                                filename={(filename) => this.storeFilename() }
+                            />
 
                             <FormFields 
                                 id={'name'}
