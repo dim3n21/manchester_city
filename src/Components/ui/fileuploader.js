@@ -9,19 +9,19 @@ class Fileuploader extends Component {
         name: '',
         isUploading: false,
         fileURL: ''
-    }
+    };
 
     handleUploadStart = () => {
         this.setState({
             isUploading: true
         })
-    }
+    };
 
     handleUploadError = () => {
         this.setState({
             isUploading: false
         })
-    }
+    };
 
     handleUploadSuccess = (filename) => {
 
@@ -39,7 +39,19 @@ class Fileuploader extends Component {
                     fileURL: url
                 })
             })
-    }
+        
+        this.props.filename(filename)
+    };
+
+    uploadAgain = () => {
+        this.setState({
+            name: '',
+            isUploading: false,
+            fileURL: ''
+        });
+
+        this.props.resetImage();
+    };
 
     static getDeriveStateFromProps (props, state) {
         
