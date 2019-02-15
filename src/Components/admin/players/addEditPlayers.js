@@ -118,11 +118,11 @@ class AddEditPlayers extends Component {
                 formType:'Add player'
             })
         } else {
-           firebaseDB.ref(`player/${playerId}`).once('value')
+           firebaseDB.ref(`players/${playerId}`).once('value')
            .then(snapshot => {
                const playerData = snapshot.val();
 
-                firebase.storage().ref('player')
+                firebase.storage().ref('players')
                 .child(playerData.image).getDownloadURL()
                 .then( url => {
                     this.updateFields(playerData,playerId,'Edit player',url)
@@ -186,7 +186,7 @@ class AddEditPlayers extends Component {
     
         if(formIsValid){
             if(this.state.formType === 'Edit player'){
-                firebaseDB.ref(`player/${this.state.playerId}`)
+                firebaseDB.ref(`players/${this.state.playerId}`)
                 .update(dataToSubmit).then(()=>{
                     this.successForm('Update correctly');
                 }).catch(e=>{
@@ -235,7 +235,7 @@ class AddEditPlayers extends Component {
                         <form onSubmit={(event)=> this.submitForm(event)}>
             
                             <Fileuploader
-                                dir="player"
+                                dir="players"
                                 tag={"Player image"}
                                 defaultImg={this.state.defaultImg}
                                 defaultImgName={this.state.formdata.image.value}
