@@ -75,9 +75,9 @@ class MatchesList extends Component {
                                 </div>
                             </div>
                             <div className="block_wraper nfo">
-                                <div><strong>Date</strong>{data.date}</div>
-                                <div><strong>Stadium</strong>{data.stadium}</div>
-                                <div><strong>Referee</strong>{data.referee}</div>
+                                <div><strong>Date: </strong>{data.date}</div>
+                                <div><strong>Stadium: </strong>{data.stadium}</div>
+                                <div><strong>Referee: </strong>{data.referee}</div>
                             </div>
                         </div>
                     ))}
